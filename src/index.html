@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+  Patient Records: free, offline patient record keeping for clinics.
+  Copyright (C) 2026 Daniyal
+  SPDX-License-Identifier: LicenseRef-Patient-Records-Free-Use-1.0
+
+  Free to use, copy and change. Selling it or charging for it is not allowed.
+  Changed versions must stay free and include their source code.
+  Provided without warranty. Full terms: see the LICENSE file.
+
+  This is the SOURCE page. Open it in Chrome or Edge to try changes, then run
+  "python3 build.py" to make the single-file app in dist/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patient Records</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- LOCK -->
+<div id="lockScreen" class="screen">
+  <div class="panel">
+    <div id="browserWarn" class="notice hidden">This app needs Google Chrome or Microsoft Edge. Please open this file in one of them.</div>
+
+    <div id="aCreate" class="hidden">
+      <h1 id="aCreateTitle">Create your password</h1>
+      <p id="aCreateText"></p>
+      <div class="stack">
+        <label class="field"><span>New password</span><input id="newPw1" type="password" autocomplete="new-password"></label>
+        <label class="field"><span>Type it again</span><input id="newPw2" type="password" autocomplete="new-password"></label>
+      </div>
+      <label class="checkline"><input type="checkbox" id="showNew"> Show password</label>
+      <div id="createErr" class="err"></div>
+      <button id="createBtn" class="btn primary big wide">Create password</button>
+    </div>
+
+    <div id="aEnter" class="hidden">
+      <h1>Patient Records</h1>
+      <p>Enter your password to continue.</p>
+      <input id="pw" class="pin" type="password" autocomplete="current-password" aria-label="Password">
+      <div id="pwErr" class="err"></div>
+      <button id="unlockBtn" class="btn primary big wide">Unlock</button>
+      <div class="center"><button class="link" id="forgotBtn">Forgot password?</button></div>
+    </div>
+
+    <div id="aRecover" class="hidden">
+      <h1>Forgot password</h1>
+      <p>Use either way below to set a new password.</p>
+      <div class="opt">
+        <b>Use your recovery code</b>
+        <input id="recCode" class="codein" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" aria-label="Recovery code">
+        <button id="recBtn" class="btn primary">Check code</button>
+      </div>
+      <div class="opt">
+        <b>Use your data folder</b>
+        <p>Open your Patients data folder and delete the file named “Delete this file to reset password.txt”. Then click the button below.</p>
+        <button id="fileResetBtn" class="btn">I deleted the file</button>
+      </div>
+      <div id="recErr" class="err"></div>
+      <button class="link" id="recBack">← Back</button>
+    </div>
+
+    <div id="aCode" class="hidden">
+      <h1>Save your recovery code</h1>
+      <p>If you forget your password, this code lets you set a new one. It is shown only once, so write it down or save it somewhere safe.</p>
+      <div id="codeSlot"></div>
+      <button id="codeContinue" class="btn primary big wide" disabled>Continue</button>
+    </div>
+
+    <div class="center foot"><button class="link" data-help>How to use this app</button>
+      <div class="tip" style="margin-top:6px">Free app. Selling it is not allowed.</div></div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setupScreen" class="screen hidden">
+  <div class="panel">
+    <div id="setupNew">
+      <h1>Choose a folder</h1>
+      <p>Pick where patient records should be kept. A folder named “Patients data” will be made inside it. If you already have a “Patients data” folder, choose that folder or the one that holds it.</p>
+      <button class="btn primary big" data-act="pick" style="width:100%">Choose folder</button>
+      <div class="tip">Tip: make a folder such as “Clinic” in Documents and choose it. Some system folders can’t be chosen.</div>
+    </div>
+    <div id="setupReconnect" class="hidden">
+      <h1>Allow folder access</h1>
+      <p>The browser needs your OK to open <b id="reName">Patients data</b> again.</p>
+      <div class="stack">
+        <button class="btn primary big" data-act="reconnect">Allow access</button>
+        <button class="btn" data-act="pick">Choose a different folder</button>
+      </div>
+    </div>
+    <div id="setupErr" class="err" style="margin-top:12px"></div>
+    <div class="center foot"><button class="link" data-help>How to use this app</button></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header class="top">
+    <h1>Patient Records</h1>
+    <span class="folder" id="folderLabel"></span>
+    <span class="sp"></span>
+    <button class="btn" data-help>Help</button>
+    <button class="btn" data-act="settings">Settings</button>
+    <button class="btn" data-act="lock">Lock</button>
+  </header>
+  <main>
+    <section id="listView">
+      <div class="finder">
+        <input id="q" type="search" placeholder="Search by first name, Unique ID, CNIC or phone" autocomplete="off" aria-label="Search patients">
+        <button class="btn" data-act="search">Search</button>
+        <button class="btn primary" data-act="addPatient">+ Add patient</button>
+      </div>
+      <p class="count" id="count"></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Unique ID</th><th>Name</th><th>Father / Husband</th><th>Phone</th><th>CNIC</th><th>Visits</th><th>Last visit</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div id="listEmpty" class="empty hidden"></div>
+      </div>
+    </section>
+    <section id="patientView" class="hidden"></section>
+    <section id="visitView" class="hidden"></section>
+  </main>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-head" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+<div id="confirm" class="modal hidden" role="alertdialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-head" id="cfTitle"></div>
+    <div class="modal-body" id="cfBody"></div>
+    <div class="modal-actions"><button class="btn" id="cfNo">Cancel</button><button class="btn primary" id="cfYes">OK</button></div>
+  </div>
+</div>
+<div id="lightbox" class="hidden">
+  <div class="lb-top"><span class="nm" id="lbName"></span><button class="btn" id="lbOpen">Open in new tab</button><button class="btn" id="lbClose">Close</button></div>
+  <div class="lb-img"><button class="nav prev" id="lbPrev" aria-label="Previous">‹</button><img id="lbImg" alt=""><button class="nav next" id="lbNext" aria-label="Next">›</button></div>
+</div>
+<div id="toast" class="hidden"></div>
+<div id="busy" class="hidden">Saving…</div>
+
+<datalist id="dl_disposal"><option value="Sent home"><option value="Follow-up advised"><option value="Referred"><option value="Admitted"><option value="Left against advice"></datalist>
+<datalist id="dl_gender"></datalist>
+
+<!-- Third-party: SheetJS Community Edition (Apache-2.0), reads and writes .xlsx files -->
+<script src="../vendor/xlsx.mini.min.js"></script>
+<!-- App code. Order matters: each file can use what the files above it define. -->
+<script src="config.js"></script>
+<script src="core.js"></script>
+<script src="storage.js"></script>
+<script src="ui.js"></script>
+<script src="records.js"></script>
+<script src="settings.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

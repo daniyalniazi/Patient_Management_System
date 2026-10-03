@@ -1,0 +1,75 @@
+Patient Records Free Use License, Version 1.0
+
+Copyright (C) 2026 Daniyal. All rights reserved, except as allowed below.
+
+This license covers the Patient Records software in this repository: its
+source code, the built app file and its documentation (together, "the
+Software"). It does not cover the third-party files listed at the end.
+
+
+1. WHAT YOU MAY DO, FREE OF CHARGE
+
+   a. Use the Software for any purpose. This includes using it in a private
+      clinic, hospital or other business that charges its patients or
+      customers.
+   b. Copy the Software and give copies to others, free of charge.
+   c. Change the Software and share your changed version, if you follow
+      section 3.
+
+
+2. WHAT YOU MAY NOT DO
+
+   a. Sell the Software, or any changed version of it.
+   b. Charge any fee for copies of the Software, for access to it, or for
+      permission to use it. This includes fees for downloads, licenses or
+      subscriptions.
+   c. Charge for installing, setting up, supporting or hosting the Software
+      for others.
+   d. Include the Software, or any part of it, in a product or service that
+      you sell or charge for.
+   e. Remove or change this license or the copyright notices.
+
+   Using the Software inside your own clinic or business is allowed, even
+   though your clinic or business earns money. What is not allowed is
+   earning money from the Software itself.
+
+
+3. SHARING CHANGED VERSIONS
+
+   If you share a changed version of the Software, you must:
+
+   a. share it free of charge, under this same license;
+   b. include its complete source code, not only the built app file; and
+   c. keep the copyright notice and this license, and clearly state that
+      you changed the Software.
+
+
+4. NO WARRANTY
+
+   The Software is provided "as is", without warranty of any kind, express
+   or implied, including any warranty of fitness for a particular purpose.
+   The author is not liable for any loss of data, damages or other problems
+   that come from using the Software, or from not being able to use it.
+
+   The Software is a record-keeping tool. It is not a medical device and
+   does not give medical advice. You are responsible for keeping backups and
+   for following the laws on patient records that apply where you work.
+
+
+5. ENDING OF YOUR RIGHTS
+
+   If you break this license, your rights under it end automatically.
+
+
+6. OTHER PERMISSIONS
+
+   To use the Software in a way this license does not allow, you need
+   written permission from the copyright holder.
+
+
+THIRD-PARTY PARTS
+
+vendor/xlsx.mini.min.js is SheetJS Community Edition 0.18.5. It is licensed
+separately under the Apache License 2.0 (see vendor/LICENSE-SheetJS.txt),
+and this license does not change its terms. The library and its license
+text are also included inside the built app file, dist/Patient_Records.html.

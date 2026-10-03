@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Local patient data: never commit real records
+*.xlsx
+*.xls
+*.csv
+records/
+patients/
+
+# Environment / secrets
+.env
+.env.*
+
+# Note: dist/Patient_Records.html is committed on purpose. The README
+# points users to it in the ZIP download.
